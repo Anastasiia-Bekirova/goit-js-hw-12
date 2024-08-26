@@ -226,3 +226,24 @@ ol {
 .comments {
   margin-right: 32px;
 }
+.load-more {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 32px;
+  display: block;
+  border-radius: 8px;
+  padding: 8px 16px;
+  width: 125px;
+  height: 40px;
+  background: #4e75ff;
+  border-style: none;
+  font-weight: 500;
+    font-size: 16px;
+    line-height: 1.5;
+    letter-spacing: 0.04em;
+    color: #fff;
+    font-family: "Montserrat", sans-serif;
+}
+.load-more.is-hidden {
+  display: none;
+}
