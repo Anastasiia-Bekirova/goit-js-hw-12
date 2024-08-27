@@ -23,6 +23,7 @@ const loadMoreBtnEl = document.querySelector('.js-load-more');
 let currentPage = 1;
 let searchedValue = '';
 let cardHeight = 0;
+let limit = 15;
 
  
 const onSearchFormSubmit = async event => {
@@ -73,7 +74,7 @@ const onSearchFormSubmit = async event => {
 
         loadMoreBtnEl.classList.remove('is-hidden');
 
-         if (response.data.hits.length < 15) {
+         if (response.data.hits.length < limit) {
              loadMoreBtnEl.classList.add('is-hidden');
         };
         
@@ -82,9 +83,10 @@ const onSearchFormSubmit = async event => {
     }
 };
 const onLoadMoreBtnClick = async event => {
-  try {
+    try {
+      
     currentPage++;
-
+  loaderEl.classList.remove('is-hidden');
     const response = await fetchPhotos(searchedValue, currentPage);
 
     const galleryCardsTemplate = response.data.hits
@@ -92,20 +94,26 @@ const onLoadMoreBtnClick = async event => {
       .join('');
 
     galleryEl.insertAdjacentHTML('beforeend', galleryCardsTemplate);
-
+    loaderEl.classList.add('is-hidden');
     scrollBy({
       top: cardHeight * 2,
       behavior: 'smooth',
     });
+      
+    let totalPages = Math.ceil(response.data.totalHits / limit);
 
-    if (currentPage === response.data.totalHits) {
-        loadMoreBtnEl.classList.add('is-hidden');
+    if (currentPage === totalPages) {
+       
         iziToast.info({
             message: 'We&#039re sorry, but you&#039ve reached the end of search results',
             position: 'topRight',
-});
+        });
+        loadMoreBtnEl.classList.add('is-hidden');
+     
 
     }
+       
+      
   } catch (err) {
     console.log(err);
   }
